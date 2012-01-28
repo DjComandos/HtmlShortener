@@ -1,6 +1,6 @@
 (function($) {
 	$.fn.shorten = function(width, insertThreeDots) {
-		var self = this;
+		var self = $(this);
 		var ready = false;
 		var nodeNumber = 0;
 		var main = $('<div style="display: inline;position: absolute"></div>');
@@ -9,6 +9,9 @@
 		self.html(main);
 		
 		if(main.width() > width) {
+			if(insertThreeDots) {
+				main.append('<span class="threeDots">...</span>');
+			}
 			walkTroughDom(self[0]);
 		}
 		
@@ -19,10 +22,7 @@
 				if(!ready) {
 					var v = node.childNodes[i];
 					if(v.nodeType === 3) {
-						if(!!insertThreeDots && nodeNumber == 0) {
-							//rightmost node
-							v.nodeValue = "...";
-						} else {
+						if(nodeNumber != 0 || !insertThreeDots) {
 							var cur = v.nodeValue;
 							v.nodeValue = "";
 							if(main.width() < width) {
