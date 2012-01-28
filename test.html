@@ -1,14 +1,15 @@
 <script src="jquery.js"></script>
 <script src="shortener.js"></script>
 <script>
-$(document).ready(function (){
-    var start = (new Date()).getTime();
-    $(".shortenText").shorten(350, true);
-    var total = (new Date()).getTime() - start;
-    if(!!console && !!console.log) {
-        console.log('total milliseconds: ' + total);
-    }
-});
+    $(document).ready(function () {
+        var start = (new Date()).getTime();
+        $(".shortenText").shorten(350, true);
+        var total = (new Date()).getTime() - start;
+
+        if (!!console && !!console.log) {
+            console.log('total milliseconds: ' + total);
+        }
+    });
 </script>
 <style>
 .shortContainer {
