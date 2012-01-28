@@ -5,7 +5,9 @@ $(document).ready(function (){
     var start = (new Date()).getTime();
     $(".shortenText").shorten(350, true);
     var total = (new Date()).getTime() - start;
-    console.log('total milliseconds: ' + total);
+    if(!!console && !!console.log) {
+        console.log('total milliseconds: ' + total);
+    }
 });
 </script>
 <style>
