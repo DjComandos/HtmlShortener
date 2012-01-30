@@ -4,7 +4,7 @@
             var self = $(self),
                 ready = false,
                 nodeNumber = 0,
-                main = $('<div style="white-space: nowrap"></div>');
+                main = $('<div style="white-space: nowrap;display: inline; position: absolute"></div>');
             
             function walkTroughDom(node) {
                 for( var i = node.childNodes.length - 1; i >= 0; i--){
