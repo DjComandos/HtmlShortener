@@ -6,6 +6,23 @@
                 nodeNumber = 0,
                 main = $('<div style="white-space: nowrap;display: inline; position: absolute"></div>');
             
+    		function isInside(){
+				return main.width() < width;
+			}
+			
+			function normalizeLastNode(cur, v){
+				var prev = "";
+				for(var j=0; j<cur.length; j++) {
+					prev = v.nodeValue;
+					v.nodeValue = cur.substring(0, j + 1);
+					if(main.width() > width) {
+						v.nodeValue = prev;
+						ready = true;
+						return;
+					}
+				}
+			}
+			
             function walkTroughDom(node) {
                 for( var i = node.childNodes.length - 1; i >= 0; i--){
                     if(!ready) {
@@ -14,17 +31,8 @@
                             if(nodeNumber != 0 || !insertThreeDots) {
                                 var cur = v.nodeValue;
                                 v.nodeValue = "";
-                                if(main.width() < width) {
-                                    var prev = "";
-                                    for(var j=0; j<cur.length; j++) {
-                                        prev = v.nodeValue;
-                                        v.nodeValue = cur.substring(0, j + 1);
-                                        if(main.width() > width) {
-                                            v.nodeValue = prev;
-                                            ready = true;
-                                            return;
-                                        }
-                                    }
+                                if(isInside()) {
+									normalizeLastNode(cur, v);
                                 }
                             }
                         } else if(v.nodeType === 1){
