@@ -1,42 +1,69 @@
-(function($) {
-    $.fn.shorten = function(width, insertThreeDots) {
-        $.each(this, function(i, self) {
+(function ($) {
+    $.fn.shorten = function (userSettings) {
+
+        var settings = $.extend({ width: undefined, height: undefined, insertThreeDots: true }, userSettings),
+            mainMarkup = '<div class="shortenerMain" style="white-space: nowrap;display: inline; position: absolute"></div>',
+            nodeTypes = {
+                ELEMENT_NODE: 1,
+                TEXT_NODE: 3
+            },
+            shortenHelper = (function (s) {
+                var width = s.width,
+                    height = s.height,
+                    insertThreeDots = s.insertThreeDots;
+
+                function isInside($main) {
+                    return ($main.width() < width || width === undefined)
+                            && ($main.height() < height || height === undefined);
+                }
+
+                function insertThreeDotsIfNeed($main) {
+                    if (insertThreeDots) {
+                        $main.append('<span class="threeDots">...</span>');
+                    }
+                }
+
+                function normalizeLastNode($main, currentNode, currentNodeValue) {
+                    var previousValue = "";
+                    for (var j = 0; j < currentNodeValue.length; j++) {
+                        previousValue = currentNode.nodeValue;
+                        currentNode.nodeValue = currentNodeValue.substring(0, j + 1);
+                        if (!isInside($main)) {
+                            currentNode.nodeValue = previousValue;
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                return {
+                    normalizeLastNode: normalizeLastNode,
+                    isInside: isInside,
+                    insertThreeDotsIfNeed: insertThreeDotsIfNeed
+                };
+            })(settings);
+
+        $.each(this, function (i, self) {
             var self = $(self),
                 ready = false,
                 nodeNumber = 0,
-                main = $('<div style="white-space: nowrap;display: inline; position: absolute"></div>');
+                $main = $(mainMarkup);
 
-            function isInside() {
-                return main.width() < width;
-            }
-
-            function normalizeLastNode(cur, v) {
-                var prev = "";
-                for (var j = 0; j < cur.length; j++) {
-                    prev = v.nodeValue;
-                    v.nodeValue = cur.substring(0, j + 1);
-                    if (main.width() > width) {
-                        v.nodeValue = prev;
-                        ready = true;
-                        return;
-                    }
-                }
-            }
 
             function walkTroughDom(node) {
                 for (var i = node.childNodes.length - 1; i >= 0; i--) {
                     if (!ready) {
-                        var v = node.childNodes[i];
-                        if (v.nodeType === 3) {
-                            if (nodeNumber != 0 || !insertThreeDots) {
-                                var cur = v.nodeValue;
-                                v.nodeValue = "";
-                                if (isInside()) {
-                                    normalizeLastNode(cur, v);
+                        var currentNode = node.childNodes[i];
+                        if (currentNode.nodeType === nodeTypes.TEXT_NODE) {
+                            if (nodeNumber != 0 || !settings.insertThreeDots) {
+                                var currentNodeValue = currentNode.nodeValue;
+                                currentNode.nodeValue = "";
+                                if (shortenHelper.isInside($main)) {
+                                    ready = shortenHelper.normalizeLastNode($main, currentNode, currentNodeValue);
                                 }
                             }
-                        } else if (v.nodeType === 1) {
-                            walkTroughDom(v);
+                        } else if (currentNode.nodeType === nodeTypes.ELEMENT_NODE) {
+                            walkTroughDom(currentNode);
                         }
                         nodeNumber++;
                     } else {
@@ -45,17 +72,23 @@
                 }
             }
 
-            main.append(self.html());
-            self.html(main);
+            // wrap container
+            if (settings.height === undefined) {
+                $main.append(self.html());
+                self.html($main);
+            } else {
+                $main = $(self);
+            }
 
-            if (main.width() > width) {
-                if (insertThreeDots) {
-                    main.append('<span class="threeDots">...</span>');
-                }
+            if (!shortenHelper.isInside($main)) {
+                shortenHelper.insertThreeDotsIfNeed($main);
                 walkTroughDom(self[0]);
             }
 
-            self.html(main.html());
+            // remove wrapper
+            if (settings.height === undefined) {
+                self.html($main.html());
+            }
         });
     };
 })(jQuery);

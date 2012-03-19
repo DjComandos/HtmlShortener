@@ -1,0 +1,63 @@
+<script src="jquery.js"></script>
+<script src="shortener.js"></script>
+<script>
+$(document).ready(function (){
+
+    $(".shortenText").shorten({ width: 350, height: 120, insertThreeDots: true });
+
+});
+</script>
+<style>
+.shortContainer {
+    display: block; width: 340px; border: 1px solid black;float:left;
+}
+.shortenText {
+    display: inline;
+}
+.justDiv {
+    display: block; float:left
+}
+.lineSeparator {
+    display: block;clear: both; padding:2px;
+}
+.bSpan {
+    font-size:18;
+}
+.bigGreenText {
+    font-size:42; color:green
+}
+</style>
+<body>
+
+<!-- *** 1 *** -->
+<div>
+    <div class="lineSeparator"><hr/></div>
+    <h3>original:</h3>
+    <div class="shortContainer" >
+        <div>Here is <span class="bSpan">some long <b>text <u><span class="bigGreenText">to</span></u>
+         short </b>to </span>appropriate value <span>and finally some text text text<b>
+         it was hella hard to write it</b></span>
+         And again too many letters, there are too many words that will be shortened by height, and again and again.
+         text text text text text text text text text text text text text text text text text text text text text text 
+         text text text text text text text text text text text text text text text text text text text text text text 
+         text text text text text text text text text text text text text text text text text text text text text text 
+         </div>
+    </div>
+    <div class="lineSeparator"><hr/></div>
+    <h3>Cutted to defined height:</h3>
+    <div class="shortContainer" >
+        <div class="shortenText">Here is <span class="bSpan">some long <b>text <u><span class="bigGreenText">to</span></u>
+         short </b>to </span>appropriate value <span>and finally some text text text<b>
+         it was hella hard to write it</b></span>
+         <span>
+         And again too many letters, there are too many words that will be shortened by height, and again and again.
+         text text text text text text text text text text text text text text text text text text text text text text 
+         text text text text text text text text text text text text text text text text text text text text text text 
+         text text text text text text text text text text text text text text text text text text text text text text 
+         </span>
+         </div>
+    </div>
+</div>
+
+
+</body>
