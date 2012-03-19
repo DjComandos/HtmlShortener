@@ -4,7 +4,7 @@
             var self = $(self),
                 ready = false,
                 nodeNumber = 0,
-                main = $('<div style="display: inline;position: absolute"></div>');
+                main = $('<div class="trololo" style="display: inline !important;position: absolute !important"></div>');
             
             function walkTroughDom(node) {
                 for( var i = node.childNodes.length - 1; i >= 0; i--){
@@ -44,10 +44,10 @@
                 if(insertThreeDots) {
                     main.append('<span class="threeDots">...</span>');
                 }
-                walkTroughDom(self[0]);
+                //walkTroughDom(self[0]);
             }
             
-            self.html(main.html());
+            //self.html(main.html());
         });
     };
 })(jQuery);
