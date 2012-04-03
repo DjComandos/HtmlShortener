@@ -3,7 +3,7 @@
 <script>
 $(document).ready(function (){
 
-    $(".shortenText").shorten({ width: 350, height: 120, insertThreeDots: true });
+    $(".shortContainer.shortenText").shorten({ height: 120, insertThreeDots: true });
 
 });
 </script>
@@ -45,8 +45,8 @@ $(document).ready(function (){
     </div>
     <div class="lineSeparator"><hr/></div>
     <h3>Cutted to defined height:</h3>
-    <div class="shortContainer" >
-        <div class="shortenText">Here is <span class="bSpan">some long <b>text <u><span class="bigGreenText">to</span></u>
+    <div class="shortContainer shortenText" >
+        <div >Here is <span class="bSpan">some long <b>text <u><span class="bigGreenText">to</span></u>
          short </b>to </span>appropriate value <span>and finally some text text text<b>
          it was hella hard to write it</b></span>
          <span>
