@@ -42,7 +42,7 @@
                     return false;
                 }
 
-                // Walk through the DOM (from the last node to the firstone ) and on each iteration make:
+                // Walk through the DOM (from the last node to the first one) and on each iteration make:
                 // - remove node's value
                 // - check if Main element fits Max bounds - then it was last iteration, and it is need to normalize last processed node
                 function walkTroughDom($main, node) {
